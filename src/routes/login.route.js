@@ -1,6 +1,15 @@
-import Router from "express"
-import { validateUser } from "../middlewares/users.middleware.js"
+import Router from "express";
+import { signInUser } from "../controllers/users.controller.js";
+import {
+  validateUser,
+  validateUserSchemma,
+  validateLogin,
+} from "../middlewares/users.middleware.js";
 
-const router = Router()
 
-router.post("/singup", validateUser, validateLogin)
+const router = Router();
+
+router.post("/singin", validateUserSchemma, validateLogin, signInUser);
+
+
+export default router
