@@ -3,6 +3,7 @@ import {
   urlTransform,
   getUrlList,
   goToSite,
+  deleteLink,
 } from "../controllers/url.controller.js";
 import {
   urlSchemmaValidation,
@@ -10,6 +11,7 @@ import {
   verifyId,
   updateCount,
   verifyUrl,
+  linkDeleteVerify,
 } from "../middlewares/url.middleware.js";
 
 const router = Router();
@@ -23,5 +25,13 @@ router.post(
 
 router.get("/urls/:id", verifyId, getUrlList);
 router.get("/urls/open/:shortUrl", verifyUrl, updateCount, goToSite);
+
+router.delete(
+  "/urls/:id",
+  authenticationVerify,
+  verifyId,
+  linkDeleteVerify,
+  deleteLink
+);
 
 export default router;

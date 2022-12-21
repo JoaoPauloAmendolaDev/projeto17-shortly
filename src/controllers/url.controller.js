@@ -39,4 +39,16 @@ function goToSite(req, res) {
   res.redirect(200, url.big_link);
 }
 
-export { urlTransform, getUrlList, goToSite };
+async function deleteLink(req, res) {
+  const id = res.locals.link;
+
+  try {
+    await connection.query("DELETE FROM links WHERE id = $1", [id]);
+    return res.sendStatus(204);
+  } catch (error) {
+    console.log(error);
+    return res.send(error).status(500);
+  }
+}
+
+export { urlTransform, getUrlList, goToSite, deleteLink };

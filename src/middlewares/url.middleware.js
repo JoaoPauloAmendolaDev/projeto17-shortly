@@ -10,9 +10,11 @@ async function authenticationVerify(req, res, next) {
   );
 
   if (tokenExist.rowCount === 0) {
-    console.log("nao achou");
     return res.sendStatus(401);
   }
+
+  res.locals.auth = token;
+  res.locals.tokenToVerifyUser = tokenExist.rows[0];
 
   next();
 }
@@ -94,10 +96,25 @@ async function updateCount(req, res, next) {
   next();
 }
 
+async function linkDeleteVerify(req, res, next) {
+  const auth = res.locals.tokenToVerifyUser;
+  const link = res.locals.link;
+
+
+  if (auth.id_user != link.user_id) {
+    return res.sendStatus(401);
+  }
+
+  res.locals.link = link.id;
+
+  next();
+}
+
 export {
   urlSchemmaValidation,
   authenticationVerify,
   verifyId,
   verifyUrl,
   updateCount,
+  linkDeleteVerify,
 };
