@@ -4,10 +4,13 @@ import userSchemma from "../models/users.models.js";
 async function validateUserSchemma(req, res, next) {
   const user = req.body;
 
+  if (!user.name || typeof user.name !== "string") {
+    return res.sendStatus(422);
+  }
+
   const { error } = userSchemma.validate(user, { abortEarly: false });
 
   if (error) {
-    console.log(error);
     const errors = error.details.map((detail) => detail.message);
     return res.status(422).send(errors);
   }
@@ -62,4 +65,19 @@ async function validateLogin(req, res, next) {
   next();
 }
 
-export { validateUserSchemma, validateUser, validateLogin };
+async function validateToken(req, res, next) {
+  const token = req.headers;
+
+  const isValidToken = await connection.query(
+    "SELECT * FROM sessions WHERE token = $1",
+    [token]
+  );
+
+  if (isValidToken.rowCount === 0) {
+    return res.sendStatus(401);
+  }
+
+  next();
+}
+
+export { validateUserSchemma, validateUser, validateLogin, validateToken };
