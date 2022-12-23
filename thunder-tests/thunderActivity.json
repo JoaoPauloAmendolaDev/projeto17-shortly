@@ -32,11 +32,11 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:4000/singin",
-    "url": "http://localhost:4000/urls/8",
-    "method": "DELETE",
+    "url": "http://localhost:4000/ranking",
+    "method": "GET",
     "sortNum": 0,
     "created": "2022-12-20T20:53:46.619Z",
-    "modified": "2022-12-21T04:58:44.636Z",
+    "modified": "2022-12-22T23:57:02.105Z",
     "headers": [
       {
         "name": "Accept",
@@ -50,13 +50,14 @@
       },
       {
         "name": "token",
-        "value": "80a2623b-95a2-472e-abca-111eca2c2b8a"
+        "value": "80a2623b-95a2-472e-abca-111eca2c2b8a",
+        "isDisabled": true
       }
     ],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"url\" : \"http://www.bananada.com\"\n}",
+      "raw": "{\n  \"url\" : \"https://www.google.com.br\"\n}",
       "form": []
     },
     "tests": []

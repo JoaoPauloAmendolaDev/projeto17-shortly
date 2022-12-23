@@ -29,7 +29,7 @@ router.get("/urls/open/:shortUrl", verifyUrl, updateCount, goToSite);
 router.delete(
   "/urls/:id",
   authenticationVerify,
-  verifyId,
+  verifyUrl,
   linkDeleteVerify,
   deleteLink
 );

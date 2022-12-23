@@ -41,7 +41,7 @@ async function verifyId(req, res, next) {
 
   try {
     const idSearch = await connection.query(
-      "SELECT * FROM links WHERE id = $1",
+      "SELECT id, short_link, big_link FROM links WHERE id = $1",
       [id]
     );
 
@@ -60,12 +60,10 @@ async function verifyId(req, res, next) {
 async function verifyUrl(req, res, next) {
   const shortUrl = req.params;
 
-  console.log(shortUrl);
-
   try {
     let existTinyUrl = await connection.query(
       "SELECT * FROM links WHERE short_link = $1",
-      [shortUrl.shortUrl]
+      [shortUrl.id]
     );
 
     if (existTinyUrl.rowCount === 0) {
@@ -73,7 +71,6 @@ async function verifyUrl(req, res, next) {
     }
 
     res.locals.url = existTinyUrl.rows[0];
-
     next();
   } catch (error) {
     console.log("aqui");
@@ -98,14 +95,21 @@ async function updateCount(req, res, next) {
 
 async function linkDeleteVerify(req, res, next) {
   const auth = res.locals.tokenToVerifyUser;
-  const link = res.locals.link;
+  const url = res.locals.url
 
+  console.log(url);
 
-  if (auth.id_user != link.user_id) {
+  console.log("eu aqui");
+
+  if (!url) {
+    return res.sendStatus(404);
+  }
+
+  if (auth.id_user != url.user_id) {
     return res.sendStatus(401);
   }
 
-  res.locals.link = link.id;
+  res.locals.link = url.id;
 
   next();
 }
